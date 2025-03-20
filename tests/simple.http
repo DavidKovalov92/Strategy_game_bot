@@ -1,0 +1,107 @@
+### Request 1: health check
+GET http://localhost:5000/health
+
+### Request 2: init game
+POST http://localhost:5000/init
+Content-Type: application/json
+
+{
+    "map_size": 30,
+    "init_balance": 500,
+    "team": "RED"
+}
+
+### Request 3: create our factory
+POST http://localhost:5000/agent/0
+Content-Type: application/json
+
+{
+    "id": 0,
+    "type": "FACTORY",
+    "team": "RED",
+    "location": [14, 6],
+    "warehouse": {}
+}
+
+### Request 4: get action from our factory (should build engineer)
+GET http://localhost:5000/agent/0/action
+
+### Request 5: create an engineer bot (simulating factory build)
+POST http://localhost:5000/agent/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "type": "ENGINEER_BOT",
+    "team": "RED",
+    "location": [14, 7],
+    "warehouse": {}
+}
+
+### Request 6: get action from engineer bot (should explore or deploy)
+GET http://localhost:5000/agent/1/action
+
+### Request 7: factory assembles a power plant
+GET http://localhost:5000/agent/0/action
+
+### Request 8: update factory warehouse (simulate assembling power plant)
+PATCH http://localhost:5000/agent/0
+Content-Type: application/json
+
+{
+    "warehouse": {"WINDMILL": 1}
+}
+
+### Request 9: engineer deploys power plant
+GET http://localhost:5000/agent/1/action
+
+### Request 10: delete engineer (simulate being lost)
+DELETE http://localhost:5000/agent/1
+
+### Request 11: attempt to get action from deleted engineer (should return 404)
+GET http://localhost:5000/agent/1/action
+
+### Request 12: update game round
+POST http://localhost:5000/round
+Content-Type: application/json
+
+{
+    "round": 2,
+    "balance": 400
+}
+
+### Request 13: attempt to access invalid agent (should return 404)
+GET http://localhost:5000/agent/999/action
+
+### Request 4: get action from our factory (should build engineer)
+GET http://localhost:5000/agent/0/action
+
+### Request 4: get action from our factory (should build engineer)
+GET http://localhost:5000/agent/1/action
+
+
+
+###
+
+POST http://localhost:5000/agent/0/view
+Content-Type: application/json
+
+{
+  "map": [
+    [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, {"type": "DESERT", "location": [9, 7], "agent": null}, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, {"type": "PLAINS", "location": [10, 6], "agent": null}, {"type": "PLAINS", "location": [10, 7], "agent": null}, {"type": "PLAINS", "location": [10, 8], "agent": null}, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, {"type": "PLAINS", "location": [11, 5], "agent": null}, {"type": "PLAINS", "location": [11, 6], "agent": null}, {"type": "PLAINS", "location": [11, 7], "agent": null}, {"type": "PLAINS", "location": [11, 8], "agent": null}, {"type": "PLAINS", "location": [11, 9], "agent": null}, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, {"type": "OCEAN", "location": [12, 4], "agent": null}, {"type": "PLAINS", "location": [12, 5], "agent": null}, {"type": "PLAINS", "location": [12, 6], "agent": null}, {"type": "PLAINS", "location": [12, 7], "agent": null}, {"type": "RIVER", "location": [12, 8], "agent": null}, {"type": "RIVER", "location": [12, 9], "agent": null}, {"type": "PLAINS", "location": [12, 10], "agent": null}, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, null, {"type": "OCEAN", "location": [13, 3], "agent": null}, {"type": "OCEAN", "location": [13, 4], "agent": null}, {"type": "PLAINS", "location": [13, 5], "agent": null}, {"type": "RIVER", "location": [13, 6], "agent": null}, {"type": "RIVER", "location": [13, 7], "agent": null}, {"type": "RIVER", "location": [13, 8], "agent": null}, {"type": "PLAINS", "location": [13, 9], "agent": null}, {"type": "PLAINS", "location": [13, 10], "agent": null}, {"type": "PLAINS", "location": [13, 11], "agent": null}, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    [null, null, {"type": "OCEAN", "location": [14, 2], "agent": null}, {"type": "OCEAN", "location": [14, 3], "agent": null}, {"type": "OCEAN", "location": [14, 4], "agent": null}, {"type": "PLAINS", "location": [14, 5], "agent": null}, {"type": "RIVER", "location": [14, 6], "agent": null}, {"type": "PLAINS", "location": [14, 7], "agent": {"id": 3, "type": "ENGINEER_BOT", "team": "BLUE", "location": [14, 7]}}, {"type": "PLAINS", "location": [14, 8], "agent": null}, {"type": "PLAINS", "location": [14, 9], "agent": null}, {"type": "PLAINS", "location": [14, 10], "agent": null}, {"type": "PLAINS", "location": [14, 11], "agent": null}, {"type": "PLAINS", "location": [14, 12], "agent": null}, null, null, null, null, null, null, null, null, null, null, null, null]
+  ]
+}
